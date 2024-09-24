@@ -1,0 +1,60 @@
+#include <SPI.h>
+#include <Wire.h>
+#include <Tiny4kOLED.h>
+#include "font11x16.h"
+#include "font16x32digits.h"
+#include <Ultrasonic.h>
+uint8_t width = 128;
+uint8_t height = 32;
+
+unsigned long di; 
+#define buzzer 1
+
+Ultrasonic ultrasonic(3, 4);
+
+void setup()
+{ 
+  
+ pinMode(buzzer,OUTPUT);
+ oled.begin(width, height, sizeof(tiny4koled_init_128x32br), tiny4koled_init_128x32br);
+ oled.setFont(FONT8X16);
+ oled.on();
+ oled.clear();
+ oled.setCursor(54, 32);
+ oled.print("Jeem3.com");
+ delay(2000);
+ oled.clear();
+
+ 
+ 
+}
+
+
+  void loop()
+{
+
+
+oled.clear();
+di = ultrasonic.read();
+
+int x = 0;
+
+ 
+
+ 
+ if (di<=10 && di>0){oled.setCursor(54, 32);oled.setFont(FONT16X32DIGITS);oled.print(di);  digitalWrite(buzzer,HIGH); delay(75);   digitalWrite(buzzer,LOW); x=75;  }
+else if (di>10 && di<=20){oled.setCursor(54, 32);oled.setFont(FONT16X32DIGITS);oled.print(di); digitalWrite(buzzer,HIGH);   delay(150);  digitalWrite(buzzer,LOW); x=150; }
+else if(di>20 && di <=30){oled.setCursor(46, 32);oled.setFont(FONT16X32DIGITS);oled.print(di);  digitalWrite(buzzer,HIGH);   delay(300);  digitalWrite(buzzer,LOW);x=300; }
+else if(di>30 && di <=40){ digitalWrite(buzzer,LOW); oled.setCursor(46, 32);oled.setFont(FONT16X32DIGITS);oled.print(di);  x=500; }
+else if(di > 41 && di<=100){ digitalWrite(buzzer,LOW); oled.setCursor(46, 32);oled.setFont(FONT16X32DIGITS);oled.print(di); x=500;}
+else if(di > 100 && di<=250){ digitalWrite(buzzer,LOW); oled.setCursor(38, 32);oled.setFont(FONT16X32DIGITS);oled.print(di); x=500;}
+else if(di > 250 && di<0){ digitalWrite(buzzer,LOW); oled.setCursor(16, 32);oled.setFont(FONT8X16); oled.print("Out of Range"); x=500; }
+else { digitalWrite(buzzer,LOW); oled.setCursor(16, 32);oled.setFont(FONT8X16); oled.print("Out of Range"); x=500; }
+
+
+delay(x); 
+
+
+
+
+}
