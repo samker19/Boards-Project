@@ -1,0 +1,71 @@
+#include <TinyWireM.h>
+#include <USI_TWI_Master.h>
+
+#include <Tiny4kOLED.h>
+#include <Wire.h>
+#include "font16x32digits.h"
+#include "font11x16.h"
+#define address 0x1E 
+int x,y,z; 
+float b ;
+void setup(){
+  Wire.begin();
+  Wire.beginTransmission(address); 
+  Wire.write(0x02); 
+  Wire.write(0x00); 
+  Wire.endTransmission();
+  oled.begin();
+  oled.clear();
+  oled.on();
+  oled.switchRenderFrame();}
+
+void loop(){
+  Wire.beginTransmission(address);
+  Wire.write(0x03); 
+  Wire.endTransmission();
+
+  Wire.requestFrom(address, 6);
+  if(6<=Wire.available()){
+  int xhi = Wire.read();
+  int xlo = Wire.read();
+  int zhi = Wire.read();
+  int zlo = Wire.read();
+ int yhi = Wire.read();
+ int ylo = Wire.read();
+
+  x = (int)(xlo | ((int)xhi << 8));
+  y = (int)(ylo | ((int)yhi << 8));
+  z = (int)(zlo | ((int)zhi << 8));
+
+  
+  b = atan2(y,x);
+  b=b+0.0523599;
+  
+  if (b<0) b+=2*PI;
+  if (b>2*PI) b-=2*PI;
+  
+   int headingDegrees = b* 180/M_PI;   
+   
+   oled.clear(); 
+  if (headingDegrees > 338 || headingDegrees < 30) {oled.setCursor(0, 0);oled.setFont(FONT8X16);oled.print("Direction: "); oled.setCursor(96, 0); oled.print("N");oled.setCursor(0,2); oled.print("Heading: "); oled.setCursor(72,2);oled.print(headingDegrees);}
+  if (headingDegrees > 30 && headingDegrees < 68)  { oled.setCursor(0, 0);oled.setFont(FONT8X16); oled.print("Direction: "); oled.setCursor(96, 0); oled.print("NE");oled.setCursor(0,2); oled.print("Heading: ");oled.setCursor(72,2); oled.print(headingDegrees); }
+  if (headingDegrees > 68 && headingDegrees < 113) { oled.setCursor(0, 0);oled.setFont(FONT8X16);oled.print("Direction: "); oled.setCursor(96, 0); oled.print("E");oled.setCursor(0,2); oled.print("Heading: ");oled.setCursor(72,2); oled.print(headingDegrees); }
+  if (headingDegrees> 113 && headingDegrees  < 158) { oled.setCursor(0, 0);oled.setFont(FONT8X16);oled.print("Direction: "); oled.setCursor(96, 0);oled.print("SE");oled.setCursor(0,2); oled.print("Heading: ");oled.setCursor(72, 2); oled.print(headingDegrees);}
+  if (headingDegrees > 158 && headingDegrees< 203) { oled.setCursor(0, 0);oled.setFont(FONT8X16);oled.print("Direction: "); oled.setCursor(96, 0);oled.print("S"); oled.setCursor(0, 2);oled.print("Heading: ");oled.setCursor(72,2); oled.print(headingDegrees); }
+  if (headingDegrees > 203 && headingDegrees < 248){ oled.setCursor(0, 0);oled.setFont(FONT8X16);oled.print("Direction: "); oled.setCursor(96, 0);oled.print("SW");oled.setCursor(0,2); oled.print("Heading: "); oled.setCursor(72,2); oled.print(headingDegrees); }
+  if (headingDegrees > 248 && headingDegrees < 293) { oled.setCursor(0, 0);oled.setFont(FONT8X16);oled.print("Direction: "); oled.setCursor(96, 0);oled.print("W");oled.setCursor(0,2); oled.print("Heading: ");oled.setCursor(72,2);oled.print(headingDegrees); }
+  if (headingDegrees > 293 && headingDegrees < 338) { oled.setCursor(0, 0);oled.setFont(FONT8X16);oled.print("Direction: "); oled.setCursor(96, 0);oled.print("NW");oled.setCursor(0,2); oled.print("Heading: ");oled.setCursor(72,2); oled.print(headingDegrees); }
+  
+
+  
+
+oled.switchFrame();
+
+
+  }
+
+ 
+  
+
+
+}
