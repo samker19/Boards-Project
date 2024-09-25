@@ -1,0 +1,36 @@
+const int soundSensorPin = A1;  // Sound sensor connected to A0
+const int ledPin = 1;            // LED connected to pin 9
+
+int clapCount = 0;               // Counter for claps
+unsigned long lastClapTime = 0;  // Time of the last clap
+const unsigned long clapDelay = 300; // Time to wait for next clap (in milliseconds)
+
+void setup() {
+  pinMode(ledPin, OUTPUT);      // Set LED pin as output
+  pinMode(soundSensorPin, INPUT); // Set sound sensor pin as input
+
+}
+
+void loop() {
+  int sensorValue = analogRead(soundSensorPin); // Read the sound sensor value
+
+
+  // Check if a clap is detected
+  if (sensorValue > 100 && (millis() - lastClapTime) > clapDelay) {
+    clapCount++;               
+    lastClapTime = millis();   
+    delay(100);               
+
+    // Turn on LED for 2 claps
+    if (clapCount == 2) {
+      digitalWrite(ledPin, HIGH); 
+      
+    }
+    
+    // Turn off LED for 3 claps
+    if (clapCount == 4) {
+      digitalWrite(ledPin, LOW);  
+      clapCount = 0;             
+    }
+  }
+}
