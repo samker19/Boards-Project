@@ -1,0 +1,38 @@
+const int red1=0, yellow1=1, green1=2;
+const int red2=10, yellow2=9, green2=8;
+const int buzzer=7;
+void setup() {
+
+  pinMode(red1, OUTPUT);
+  pinMode(yellow1, OUTPUT);
+  pinMode(green1, OUTPUT);
+  pinMode(red2, OUTPUT);
+  pinMode(yellow2, OUTPUT);
+  pinMode(green2, OUTPUT);
+  pinMode(buzzer, OUTPUT);
+}
+void loop() {
+
+digitalWrite(red1, HIGH);
+digitalWrite(green2, HIGH);
+digitalWrite(buzzer, HIGH);
+delay(200);
+digitalWrite(buzzer,LOW);
+delay(4800);
+digitalWrite(green2, LOW);
+digitalWrite(yellow2, HIGH);
+delay(2000);
+digitalWrite(red1, LOW);
+digitalWrite(yellow2, LOW);
+digitalWrite(green1, HIGH);
+digitalWrite(red2, HIGH);
+digitalWrite(buzzer, HIGH);
+delay(200);
+digitalWrite(buzzer,LOW);
+delay(4800);
+digitalWrite(green1, LOW);
+digitalWrite(yellow1,HIGH);
+delay(2000);
+digitalWrite(yellow1, LOW);
+digitalWrite(red2, LOW);
+}
