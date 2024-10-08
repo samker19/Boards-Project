@@ -1,0 +1,93 @@
+#define analogPin A7
+
+int q0= 10;
+int q1= 11;
+int q2 = 13;
+int q3 = 14;
+
+
+
+
+
+
+
+
+//int ledPins[] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+//int ledPins[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+int ledPins[] = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
+const int ledCount = 10;
+
+
+
+
+void setup() {
+
+pinMode(q1,OUTPUT);
+pinMode(q2,OUTPUT);
+pinMode(q0,OUTPUT);
+pinMode(q3,OUTPUT);
+
+
+   for (int thisLed = 0; thisLed < ledCount; thisLed++) {
+      pinMode(ledPins[thisLed], OUTPUT);
+   }
+
+
+
+
+
+  digitalWrite(q0, LOW);
+digitalWrite(q1, LOW);
+digitalWrite(q2, LOW);
+digitalWrite(q3, LOW);
+
+
+
+}
+
+void loop() {
+
+
+
+
+int sensorReading = analogRead(analogPin);
+   int ledLevel = map(sensorReading, 0, 1023, 0, ledCount);
+   int sevseg = map(sensorReading, 0, 1023, 0, 15);
+   // loop over the LED array:
+   for (int thisLed = 0; thisLed < ledCount; thisLed++) {
+      // if the array element's index is less than ledLevel,
+      // turn the pin for this element on:
+      if (thisLed < ledLevel) {
+         digitalWrite(ledPins[thisLed], HIGH);
+         
+      }else { // turn off all pins higher than the ledLevel:
+         digitalWrite(ledPins[thisLed], LOW);
+      }
+   }
+
+   if((sevseg % 2) > 0) {
+    digitalWrite(q0, HIGH);
+  } else {
+    digitalWrite(q0, LOW);
+  }
+
+  if((sevseg % 4) > 1) {
+    digitalWrite(q1, HIGH);
+  } else {
+    digitalWrite(q1, LOW);
+  }
+
+  if((sevseg % 8) > 3) {
+    digitalWrite(q2, HIGH);
+  } else {
+    digitalWrite(q2, LOW);
+  }
+
+  if((sevseg % 16) > 7) {
+    digitalWrite(q3, HIGH);
+  } else {
+    digitalWrite(q3, LOW);
+  }
+
+
+}
