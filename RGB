@@ -1,0 +1,39 @@
+// Define pins for RGB LED
+#define RED_PIN   6   // Pin PB0
+#define GREEN_PIN 7   // Pin PB1
+#define BLUE_PIN  8   // Pin PB2
+
+// Define analog pins for potentiometers
+#define RED_POT_PIN   A0  // Potentiometer for red (PA0)
+#define GREEN_POT_PIN A1  // Potentiometer for green (PA1)
+#define BLUE_POT_PIN  A2  // Potentiometer for blue (PA2)
+
+void setup() {
+  // Set RGB LED pins as output
+  pinMode(RED_PIN, OUTPUT);
+  pinMode(GREEN_PIN, OUTPUT);
+  pinMode(BLUE_PIN, OUTPUT);
+
+  // Set the potentiometer pins as input (default)
+  // No need to explicitly set them as input, as it's default.
+}
+
+void loop() {
+  // Read the potentiometer values (0 to 1023)
+  int redValue = analogRead(RED_POT_PIN);
+  int greenValue = analogRead(GREEN_POT_PIN);
+  int blueValue = analogRead(BLUE_POT_PIN);
+
+  // Map the potentiometer values from 0-1023 to 0-255 for PWM
+  int redPWM = map(redValue, 0, 1023, 0, 255);
+  int greenPWM = map(greenValue, 0, 1023, 0, 255);
+  int bluePWM = map(blueValue, 0, 1023, 0, 255);
+
+  // Write the PWM values to the RGB LED pins
+  analogWrite(RED_PIN, redPWM);
+  analogWrite(GREEN_PIN, greenPWM);
+  analogWrite(BLUE_PIN, bluePWM);
+
+  // Small delay to make it more stable
+  delay(50);
+}
