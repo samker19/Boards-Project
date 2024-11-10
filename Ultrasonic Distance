@@ -58,3 +58,89 @@ delay(x);
 
 
 }
+
+
+#include <SPI.h>
+#include <Wire.h>
+#include <Tiny4kOLED.h>
+#include "font11x16.h"
+#include "font16x32digits.h"
+#include <Ultrasonic.h>
+
+#define BUZZER_PIN 1
+#define OLED_WIDTH 128
+#define OLED_HEIGHT 32
+
+Ultrasonic ultrasonic(3, 4);
+unsigned long distance;
+
+void setup() { 
+  pinMode(BUZZER_PIN, OUTPUT);
+  oled.begin(OLED_WIDTH, OLED_HEIGHT, sizeof(tiny4koled_init_128x32br), tiny4koled_init_128x32br);
+  oled.setFont(FONT8X16);
+  oled.on();
+  oled.clear();
+  oled.setCursor(54, 32);
+  oled.print("Jeem3.com");
+  delay(2000);
+  oled.clear();
+}
+
+void displayDistance(int dist) {
+  oled.clear();
+  oled.setCursor(46, 32);
+  oled.setFont(FONT16X32DIGITS);
+  oled.print(dist);
+}
+
+void buzz(int duration) {
+  digitalWrite(BUZZER_PIN, HIGH);
+  delay(duration);
+  digitalWrite(BUZZER_PIN, LOW);
+}
+
+void loop() {
+  distance = ultrasonic.read();
+  int delayTime = 0;
+
+  if (distance > 0 && distance <= 10) {
+    displayDistance(distance);
+    buzz(75);
+    delayTime = 75;
+  }
+  else if (distance > 10 && distance <= 20) {
+    displayDistance(distance);
+    buzz(150);
+    delayTime = 150;
+  }
+  else if (distance > 20 && distance <= 30) {
+    displayDistance(distance);
+    buzz(300);
+    delayTime = 300;
+  }
+  else if (distance > 30 && distance <= 40) {
+    displayDistance(distance);
+    delayTime = 500;
+  }
+  else if (distance > 40 && distance <= 100) {
+    displayDistance(distance);
+    delayTime = 500;
+  }
+  else if (distance > 100 && distance <= 250) {
+    oled.clear();
+    oled.setCursor(38, 32);
+    oled.setFont(FONT16X32DIGITS);
+    oled.print(distance);
+    delayTime = 500;
+  }
+  else {
+    oled.clear();
+    oled.setCursor(16, 32);
+    oled.setFont(FONT8X16);
+    oled.print("Out of Range");
+    delayTime = 500;
+  }
+
+  delay(delayTime);
+}
+
