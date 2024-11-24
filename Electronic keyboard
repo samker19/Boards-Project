@@ -54,49 +54,49 @@ void loop()
 {
   while(digitalRead(C)== LOW)
   {
-    tone(Buzz,T_C);
+    tone(Buzz,T_E);
     digitalWrite(LED,HIGH);
   }
 
 
   while(digitalRead(D) == LOW)
   {
-    tone(Buzz,T_D);
+    tone(Buzz,T_F);
     digitalWrite(LED,HIGH);
 
   }
 
   while(digitalRead(E) == LOW)
   {
-    tone(Buzz,T_E);
+    tone(Buzz,T_G);
     digitalWrite(LED,HIGH);
 
   }
 
   while(digitalRead(F) == LOW)
   {
-    tone(Buzz,T_F);
+    tone(Buzz,T_A);
     digitalWrite(LED,HIGH);
 
   }
 
   while(digitalRead(G) == LOW)
   {
-    tone(Buzz,T_G);
+    tone(Buzz,T_B);
     digitalWrite(LED,HIGH);
 
   }
 
   while(digitalRead(A) == LOW)
   {
-    tone(Buzz,T_A);
+    tone(Buzz,T_C);
     digitalWrite(LED,HIGH);
 
   }
 
   while(digitalRead(B) == LOW)
   {
-    tone(Buzz,T_B);
+    tone(Buzz,T_D);
     digitalWrite(LED,HIGH);
 
   }
@@ -105,4 +105,3 @@ void loop()
   digitalWrite(LED,LOW);
 
 }
-
